@@ -8,6 +8,6 @@ const authenticate = require("../middleware/authenticate");
 const router = express.Router();
 
 router.post("/member", authenticate, createMember);
-router.delete("/member", createMember);
+router.delete("/member", deleteMember);
 
 module.exports = router;

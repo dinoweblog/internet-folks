@@ -35,6 +35,8 @@ const getAllMembers = async (req, res) => {
   try {
     const id = req.params.id;
 
+    console.log(id);
+
     if (!id) return res.status(400).send({ message: "Id is invalid" });
 
     let meta = {};
@@ -43,12 +45,13 @@ const getAllMembers = async (req, res) => {
 
     const skip = (page - 1) * limit;
 
-    const data = await Member.find({ slug: id })
+    const data = await Member.findById(id)
       .skip(skip)
       .limit(limit)
-      .populate("owner ", "_id name");
+      .populate("user", "_id name")
+      .populate("role", "_id name");
 
-    const totalDoc = await Member.find({ slug: id }).countDocuments();
+    const totalDoc = await Member.findById(id).countDocuments();
     meta.total = totalDoc;
     meta.pages = Math.ceil(totalDoc / limit);
     meta.page = page;
